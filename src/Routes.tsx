@@ -19,7 +19,7 @@ export const PageRoutes = () => {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<SignUp />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route
           path="/"
           element={
@@ -28,7 +28,7 @@ export const PageRoutes = () => {
             </PrivateRoute>
           }
         />
-        {/* <Route path="*" element={<Navigate to="/login" />} /> */}
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );

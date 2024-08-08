@@ -61,7 +61,7 @@ const Form: React.FC<FormProps> = ({
       {type == "login" ? (
         <p className="text-sm mt-3">
           Not registered yet?
-          <a href="/register" className="ml-1 text-white">
+          <a href="/sign-up" className="ml-1 text-white">
             Register →
           </a>
         </p>
