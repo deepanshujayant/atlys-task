@@ -1,4 +1,4 @@
-import React, { useState, lazy } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { Field } from "./Form";
 import { useAuth } from "../Auth";
 
@@ -33,7 +33,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
   };
   return (
     <>
-      <div className={`mt-10 login-form sm:w-11/12 md:w-2/3 lg:w-4/12 bg-[#26292D] border-2 border-[#35373B] mx-auto rounded-lg sm:px-3 sm:py-5 lg:px-6 lg:py-10`}>
+      <div
+        className={`mt-10 login-form sm:w-11/12 md:w-2/3 lg:w-4/12 bg-[#26292D] border-2 border-[#35373B] mx-auto rounded-lg sm:px-3 sm:py-5 lg:px-6 lg:py-10`}
+      >
         <div className="text-center mb-10">
           {isModal && (
             <div
@@ -49,13 +51,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
           </p>
           {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>
-        <Form
-          fields={fields}
-          type="login"
-          btnText="Login now"
-          setFormValues={setFormValues}
-          handleSubmit={handleClick}
-        />
+        <Suspense fallback={<p>Loading...</p>}>
+          <Form
+            fields={fields}
+            type="login"
+            btnText="Login now"
+            setFormValues={setFormValues}
+            handleSubmit={handleClick}
+          />
+        </Suspense>
       </div>
     </>
   );

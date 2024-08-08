@@ -1,12 +1,20 @@
-import React, { useState, Fragment, lazy, startTransition } from "react";
+import React, {
+  useState,
+  Fragment,
+  lazy,
+  startTransition,
+  Suspense,
+} from "react";
 import { useAuth } from "../../Auth.tsx";
 import postsData from "../../constants/data.ts";
-import { loginFields } from "../login/login.tsx";
-import LoginForm from "../../components/Login.tsx";
-import Popup from "../../components/Popup.tsx";
-// import RegisterForm from "../../components/Register.tsx";
+import { registerFields } from "../signup/index.tsx";
+// import { loginFields } from "../login/login.tsx";
+// import LoginForm from "../../components/Login.tsx";
+import RegisterForm from "../../components/Register.tsx";
 
 const Card = lazy(() => import("../../components/Card.tsx"));
+const Create = lazy(() => import("../../components/CreatePost.tsx"));
+const Popup = lazy(() => import("../../components/Popup.tsx"));
 
 const Home: React.FC = () => {
   const { user, logout } = useAuth();
@@ -42,40 +50,29 @@ const Home: React.FC = () => {
             community 🤗
           </p>
         </div>
-        <div className="create-post">
-          <div className="bg-[#26292D] border-2 border-[#35373B] sm:p-3 lg:p-5 mb-4 rounded-lg">
-            <p className="text-[#C5C7CA] text-lg mb-3">Create Post</p>
-            <div
-              className={`content mb-4 bg-[#191920] p-4 rounded-lg flex items-center`}
-            >
-              <div className="image mr-3 bg-[#27292D] w-[44px] h-[44px] align-middle rounded-full">
-                💬
-              </div>
-              <textarea
-                className="sm:text-sm bg-transparent w-full lg:text-base"
-                rows={1}
-                placeholder="How are you feeling today?"
-              ></textarea>
-            </div>
-            <div className="interactions flex justify-end items-center">
-              <button
-                onClick={openPopup}
-                className="bg-[#4A96FF] text-base px-10 py-3 rounded-md"
-              >
-                Post
-              </button>
-            </div>
-          </div>
-        </div>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Create openPopup={openPopup} />
+        </Suspense>
         <div className="posts mb-10">
           {posts.map((post) => {
-            return <Card key={post.postId} post={post} />;
+            return (
+              <Suspense fallback={<p>Loading...</p>}>
+                <Card key={post.postId} post={post} />
+              </Suspense>
+            );
           })}
         </div>
       </div>
-      <Popup isOpen={isPopupOpen}>
-        <LoginForm isModal={true} onClose={closePopup} fields={loginFields} />
-      </Popup>
+      <Suspense fallback={<p>Loading...</p>}>
+        <Popup isOpen={isPopupOpen}>
+          {/* <LoginForm isModal={true} onClose={closePopup} fields={loginFields} /> */}
+          <RegisterForm
+            isModal={true}
+            onClose={closePopup}
+            fields={registerFields}
+          />
+        </Popup>
+      </Suspense>
     </Fragment>
   );
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export interface Field {
   id: string;
@@ -61,17 +62,17 @@ const Form: React.FC<FormProps> = ({
       {type == "login" ? (
         <p className="text-sm mt-3">
           Not registered yet?
-          <a href="/sign-up" className="ml-1 text-white">
+          <Link to="/sign-up" className="ml-1 text-white">
             Register →
-          </a>
+          </Link>
         </p>
       ) : (
         <>
           <p className="text-sm mt-3">
             Already have an account?
-            <a href="/login" className="ml-1 text-white">
+            <Link to="/login" className="ml-1 text-white">
               Login →
-            </a>
+            </Link>
           </p>
         </>
       )}
