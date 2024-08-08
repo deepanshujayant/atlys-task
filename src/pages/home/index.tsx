@@ -1,15 +1,28 @@
 import { Fragment, lazy } from "react";
+import { useAuth } from "../../Auth.tsx";
 import postsData from "../../constants/data.ts";
 
 const Card = lazy(() => import("../../components/Card.tsx"));
 
 const Home: React.FC = () => {
+  const { user, logout } = useAuth();
   const { posts } = postsData;
+  if (!user) {
+    return <p>Please login to access this page.</p>;
+  }
   return (
     <Fragment>
+      <button
+        onClick={logout}
+        className="text-red-400 border-2 border-red-500 text-sm float-right p-2 rounded-md"
+      >
+        Logout
+      </button>
       <div className="container lg:w-6/12 sm:py-1 lg:mt-10 lg:h-full mx-auto">
         <div className="user-greeting mb-4">
-          <h1 className="text-[28px] font-medium mb-3">Hello DJ</h1>
+          <h1 className="text-[28px] font-medium mb-3">
+            Hello {user?.username.toUpperCase()}
+          </h1>
           <p className="text-[#7F8084]">
             How are you doing today? Would you like to share something with the
             community 🤗

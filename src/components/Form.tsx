@@ -1,3 +1,5 @@
+import React from "react";
+
 interface FormProps {
   type: string;
   fields: Array<{
@@ -7,21 +9,46 @@ interface FormProps {
     type: string;
   }>;
   btnText: string;
+  setFormValues: (prev: object) => void;
   handleSubmit: (event: React.FormEvent) => void;
 }
 
-const Form: React.FC<FormProps> = ({ fields = [], type, btnText, handleSubmit }) => {
+const Form: React.FC<FormProps> = ({
+  fields = [],
+  type,
+  btnText,
+  setFormValues,
+  handleSubmit,
+}) => {
+  const handleChange = (name: string, value: string) => {
+    setFormValues((prevState: { [x: string]: string; }) => {
+      if (prevState[name] === value) {
+        return prevState;
+      }
+      const newState = {
+        ...prevState,
+        [name]: value,
+      };
+      return newState;
+    });
+  };
+
   return (
     <div>
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit}>
         {fields.map(({ label, placeholder, type, id }) => (
           <div key={id} className="form-group">
             <label htmlFor="email">{label}</label>
-            <input id={id} type={type} placeholder={placeholder} />
+            <input
+              id={id}
+              type={type}
+              placeholder={placeholder}
+              onChange={(e) => handleChange(id, e.target.value)}
+            />
           </div>
         ))}
         <button
-          onClick={handleSubmit}
+          type="submit"
           className="bg-[#4A96FF] w-full text-base px-10 py-2 rounded-md"
         >
           {btnText}
