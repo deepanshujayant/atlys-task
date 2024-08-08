@@ -1,8 +1,9 @@
-import React, { useState, useCallback, lazy } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import React, { useState, useEffect, useCallback } from "react";
+import RegisterForm from "../../components/Register";
+import { initializeAdmin } from "../../utils";
 
-const Form = lazy(() => import("../../components/Form"));
-
-const fields = [
+export const registerFields = [
   {
     id: "email",
     type: "text",
@@ -39,8 +40,12 @@ const SignUp: React.FC = () => {
 
   const { username, email, password } = formValues || {};
 
+  useEffect(() => {
+    initializeAdmin();
+  }, []);
+
   const handleSignup = useCallback(
-    (e: { preventDefault: () => void; }) => {
+    (e: { preventDefault: () => void }) => {
       e.preventDefault();
       if (!username || !email || !password) {
         setError("All fields are required");
@@ -75,23 +80,13 @@ const SignUp: React.FC = () => {
     <>
       <div className="flex items-center justify-center flex-col h-full">
         <img src="/Logo.svg" alt="" />
-        <div className="mt-10 login-form sm:w-full lg:w-4/12 bg-[#26292D] border-2 border-[#35373B] rounded-lg sm:px-3 sm:py-5 lg:px-6 lg:py-10">
-          <div className="text-center mb-10">
-            <p className="text-sm">SIGN UP</p>
-            <p className="text-lg text-white font-medium">
-              Create an account to continue
-            </p>
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-            {success && <p className="text-green-500 mt-2">{success}</p>}
-          </div>
-          <Form
-            fields={fields}
-            type="signup"
-            btnText="Continue"
-            setFormValues={setFormValues}
-            handleSubmit={handleSignup}
-          />
-        </div>
+        <RegisterForm
+          fields={registerFields}
+          setFormValues={setFormValues}
+          error={error}
+          success={success}
+          handleSignup={handleSignup}
+        />
       </div>
     </>
   );

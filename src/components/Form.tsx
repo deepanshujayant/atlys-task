@@ -1,13 +1,13 @@
 import React from "react";
 
-interface Field {
+export interface Field {
   id: string;
   label: string;
   placeholder: string;
   type: string;
 }
 
-interface FormProps {
+export interface FormProps {
   type: string;
   fields: Field[];
   btnText: string;

@@ -7,7 +7,7 @@ export default {
   theme: {
     screens: {
       'sm': '350px',
-      'md': '768',
+      'md': '768px',
       'lg': '1024px',
     },
     extend: {},

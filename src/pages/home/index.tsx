@@ -1,11 +1,25 @@
-import { Fragment, lazy } from "react";
+import React, { useState, Fragment, lazy, startTransition } from "react";
 import { useAuth } from "../../Auth.tsx";
 import postsData from "../../constants/data.ts";
+import { loginFields } from "../login/login.tsx";
+import LoginForm from "../../components/Login.tsx";
+import Popup from "../../components/Popup.tsx";
+// import RegisterForm from "../../components/Register.tsx";
 
 const Card = lazy(() => import("../../components/Card.tsx"));
 
 const Home: React.FC = () => {
   const { user, logout } = useAuth();
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    startTransition(() => setPopupOpen(true));
+  };
+  const closePopup = () => {
+    startTransition(() => {
+      setPopupOpen(false);
+    });
+  };
   const { posts } = postsData;
   if (!user) {
     return <p>Please login to access this page.</p>;
@@ -18,7 +32,7 @@ const Home: React.FC = () => {
       >
         Logout
       </button>
-      <div className="container lg:w-6/12 sm:py-1 lg:mt-10 lg:h-full mx-auto">
+      <div className="container md:w-2/3 lg:w-6/12 sm:py-1 lg:mt-10 lg:h-full mx-auto">
         <div className="user-greeting mb-4">
           <h1 className="text-[28px] font-medium mb-3">
             Hello {user?.username.toUpperCase()}
@@ -37,12 +51,17 @@ const Home: React.FC = () => {
               <div className="image mr-3 bg-[#27292D] w-[44px] h-[44px] align-middle rounded-full">
                 💬
               </div>
-              <p className="sm:text-sm lg:text-base">
-                How are you feeling today?
-              </p>
+              <textarea
+                className="sm:text-sm bg-transparent w-full lg:text-base"
+                rows={1}
+                placeholder="How are you feeling today?"
+              ></textarea>
             </div>
             <div className="interactions flex justify-end items-center">
-              <button className="bg-[#4A96FF] text-base px-10 py-3 rounded-md">
+              <button
+                onClick={openPopup}
+                className="bg-[#4A96FF] text-base px-10 py-3 rounded-md"
+              >
                 Post
               </button>
             </div>
@@ -54,6 +73,9 @@ const Home: React.FC = () => {
           })}
         </div>
       </div>
+      <Popup isOpen={isPopupOpen}>
+        <LoginForm isModal={true} onClose={closePopup} fields={loginFields} />
+      </Popup>
     </Fragment>
   );
 };

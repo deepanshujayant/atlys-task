@@ -4,10 +4,16 @@
   height: 100dvh;
 }
 
-.image {
+.image,
+.circle {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+textarea:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .border-gradient {
