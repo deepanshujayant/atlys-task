@@ -29,11 +29,28 @@ const Home: React.FC = () => {
           </p>
         </div>
         <div className="create-post">
-          <Card post={{}} type="create" />
+          <div className="bg-[#26292D] border-2 border-[#35373B] sm:p-3 lg:p-5 mb-4 rounded-lg">
+            <p className="text-[#C5C7CA] text-lg mb-3">Create Post</p>
+            <div
+              className={`content mb-4 bg-[#191920] p-4 rounded-lg flex items-center`}
+            >
+              <div className="image mr-3 bg-[#27292D] w-[44px] h-[44px] align-middle rounded-full">
+                💬
+              </div>
+              <p className="sm:text-sm lg:text-base">
+                How are you feeling today?
+              </p>
+            </div>
+            <div className="interactions flex justify-end items-center">
+              <button className="bg-[#4A96FF] text-base px-10 py-3 rounded-md">
+                Post
+              </button>
+            </div>
+          </div>
         </div>
         <div className="posts mb-10">
           {posts.map((post) => {
-            return <Card key={post.postId} post={post} type="post" />;
+            return <Card key={post.postId} post={post} />;
           })}
         </div>
       </div>

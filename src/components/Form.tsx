@@ -1,15 +1,19 @@
 import React from "react";
 
+interface Field {
+  id: string;
+  label: string;
+  placeholder: string;
+  type: string;
+}
+
 interface FormProps {
   type: string;
-  fields: Array<{
-    id: string;
-    label: string;
-    placeholder: string;
-    type: string;
-  }>;
+  fields: Field[];
   btnText: string;
-  setFormValues: (prev: object) => void;
+  setFormValues: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string }>
+  >;
   handleSubmit: (event: React.FormEvent) => void;
 }
 
@@ -21,7 +25,7 @@ const Form: React.FC<FormProps> = ({
   handleSubmit,
 }) => {
   const handleChange = (name: string, value: string) => {
-    setFormValues((prevState: { [x: string]: string; }) => {
+    setFormValues((prevState) => {
       if (prevState[name] === value) {
         return prevState;
       }
