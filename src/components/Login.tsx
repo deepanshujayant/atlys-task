@@ -1,8 +1,7 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState } from "react";
 import { Field } from "./Form";
 import { useAuth } from "../Auth";
-
-const Form = lazy(() => import("./Form"));
+import Form from "./Form";
 
 interface FormValues {
   [key: string]: string;
@@ -53,17 +52,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
           </p>
           {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>
-        <Suspense fallback={<p>Loading...</p>}>
-          <Form
-            isModal={isModal}
-            fields={fields}
-            type="login"
-            btnText="Login now"
-            setFormValues={setFormValues}
-            handleSubmit={handleClick}
-            setPopupChild={setPopupChild}
-          />
-        </Suspense>
+        <Form
+          isModal={isModal}
+          fields={fields}
+          type="login"
+          btnText="Login now"
+          setFormValues={setFormValues}
+          handleSubmit={handleClick}
+          setPopupChild={setPopupChild}
+        />
       </div>
     </>
   );

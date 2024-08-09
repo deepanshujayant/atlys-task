@@ -1,7 +1,6 @@
-import React, { useState, useCallback, lazy, Suspense } from "react";
+import React, { useState, useCallback } from "react";
 import { Field } from "./Form";
-
-const Form = lazy(() => import("./Form"));
+import Form from "./Form";
 
 interface User {
   username: string;
@@ -81,17 +80,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           {error && <p className="text-red-500 mt-2">{error}</p>}
           {success && <p className="text-green-500 mt-2">{success}</p>}
         </div>
-        <Suspense>
-          <Form
-            isModal={isModal}
-            fields={fields}
-            type="signup"
-            btnText="Continue"
-            setFormValues={setFormValues}
-            handleSubmit={handleSignup}
-            setPopupChild={setPopupChild}
-          />
-        </Suspense>
+        <Form
+          isModal={isModal}
+          fields={fields}
+          type="signup"
+          btnText="Continue"
+          setFormValues={setFormValues}
+          handleSubmit={handleSignup}
+          setPopupChild={setPopupChild}
+        />
       </div>
     </>
   );
