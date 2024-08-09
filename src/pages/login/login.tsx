@@ -22,7 +22,6 @@ export const loginFields = [
 const Login: React.FC = () => {
   const { user } = useAuth();
 
-  // Redirecting if user is already logged in
   if (user) {
     return <Navigate to="/" />;
   }

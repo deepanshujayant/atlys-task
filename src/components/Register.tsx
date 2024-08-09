@@ -16,12 +16,14 @@ interface RegisterFormProps {
   isModal?: boolean;
   fields: Field[];
   onClose?: () => void;
+  setPopupChild?: (type: "login" | "signup") => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   isModal = false,
   fields,
   onClose,
+  setPopupChild = () => {},
 }) => {
   const [formValues, setFormValues] = useState<FormValues>({});
   const [error, setError] = useState<string>("");
@@ -81,11 +83,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         </div>
         <Suspense>
           <Form
+            isModal={isModal}
             fields={fields}
             type="signup"
             btnText="Continue"
             setFormValues={setFormValues}
             handleSubmit={handleSignup}
+            setPopupChild={setPopupChild}
           />
         </Suspense>
       </div>

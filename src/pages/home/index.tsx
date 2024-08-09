@@ -8,17 +8,20 @@ import React, {
 import { useAuth } from "../../Auth.tsx";
 import postsData from "../../constants/data.ts";
 import { registerFields } from "../signup/index.tsx";
-// import { loginFields } from "../login/login.tsx";
-// import LoginForm from "../../components/Login.tsx";
-import RegisterForm from "../../components/Register.tsx";
+import { loginFields } from "../login/login.tsx";
+import Create from "../../components/CreatePost.tsx";
 
 const Card = lazy(() => import("../../components/Card.tsx"));
-const Create = lazy(() => import("../../components/CreatePost.tsx"));
 const Popup = lazy(() => import("../../components/Popup.tsx"));
+const RegisterForm = lazy(() => import("../../components/Register.tsx"));
+const LoginForm = lazy(() => import("../../components/Login.tsx"));
+
+type PopupType = "login" | "signup";
 
 const Home: React.FC = () => {
   const { user, logout } = useAuth();
-  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isPopupOpen, setPopupOpen] = useState<boolean>(false);
+  const [popupChild, setPopupChild] = useState<PopupType>("signup");
 
   const openPopup = () => {
     startTransition(() => setPopupOpen(true));
@@ -50,9 +53,7 @@ const Home: React.FC = () => {
             community 🤗
           </p>
         </div>
-        <Suspense fallback={<p>Loading...</p>}>
-          <Create openPopup={openPopup} />
-        </Suspense>
+        <Create openPopup={openPopup} />
         <div className="posts mb-10">
           {posts.map((post) => {
             return (
@@ -63,16 +64,23 @@ const Home: React.FC = () => {
           })}
         </div>
       </div>
-      <Suspense fallback={<p>Loading...</p>}>
-        <Popup isOpen={isPopupOpen}>
-          {/* <LoginForm isModal={true} onClose={closePopup} fields={loginFields} /> */}
+      <Popup isOpen={isPopupOpen}>
+        {popupChild == "signup" ? (
           <RegisterForm
             isModal={true}
             onClose={closePopup}
             fields={registerFields}
+            setPopupChild={setPopupChild}
           />
-        </Popup>
-      </Suspense>
+        ) : (
+          <LoginForm
+            isModal={true}
+            onClose={closePopup}
+            setPopupChild={setPopupChild}
+            fields={loginFields}
+          />
+        )}
+      </Popup>
     </Fragment>
   );
 };

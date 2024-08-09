@@ -12,12 +12,14 @@ interface LoginFormProps {
   isModal?: boolean;
   fields: Field[];
   onClose?: () => void;
+  setPopupChild?: (type: "login" | "signup") => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({
   isModal = false,
   fields,
   onClose,
+  setPopupChild = () => {},
 }) => {
   const [formValues, setFormValues] = useState<FormValues>({});
   const [error, setError] = useState<string>("");
@@ -53,11 +55,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
         </div>
         <Suspense fallback={<p>Loading...</p>}>
           <Form
+            isModal={isModal}
             fields={fields}
             type="login"
             btnText="Login now"
             setFormValues={setFormValues}
             handleSubmit={handleClick}
+            setPopupChild={setPopupChild}
           />
         </Suspense>
       </div>

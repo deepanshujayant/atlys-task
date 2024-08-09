@@ -10,19 +10,23 @@ export interface Field {
 
 export interface FormProps {
   type: string;
+  isModal: boolean;
   fields: Field[];
   btnText: string;
   setFormValues: React.Dispatch<
     React.SetStateAction<{ [key: string]: string }>
   >;
   handleSubmit: (event: React.FormEvent) => void;
+  setPopupChild: (type: "login" | "signup") => void;
 }
 
 const Form: React.FC<FormProps> = ({
+  isModal,
   fields = [],
   type,
   btnText,
   setFormValues,
+  setPopupChild,
   handleSubmit,
 }) => {
   const handleChange = (name: string, value: string) => {
@@ -62,17 +66,35 @@ const Form: React.FC<FormProps> = ({
       {type == "login" ? (
         <p className="text-sm mt-3">
           Not registered yet?
-          <Link to="/sign-up" className="ml-1 text-white">
-            Register →
-          </Link>
+          {isModal ? (
+            <button
+              className="ml-1 text-white"
+              onClick={() => setPopupChild("signup")}
+            >
+              Login →
+            </button>
+          ) : (
+            <Link to="/sign-up" className="ml-1 text-white">
+              Register →
+            </Link>
+          )}
         </p>
       ) : (
         <>
           <p className="text-sm mt-3">
             Already have an account?
-            <Link to="/login" className="ml-1 text-white">
-              Login →
-            </Link>
+            {isModal ? (
+              <button
+                className="ml-1 text-white"
+                onClick={() => setPopupChild("login")}
+              >
+                Login →
+              </button>
+            ) : (
+              <Link to="/login" className="ml-1 text-white">
+                Login →
+              </Link>
+            )}
           </p>
         </>
       )}

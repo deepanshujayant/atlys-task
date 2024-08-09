@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import "./App.css";
 import { AuthProvider } from "./Auth";
 import { PageRoutes } from "./Routes";
@@ -10,7 +10,9 @@ const App: React.FC = () => {
   }, []);
   return (
     <AuthProvider>
-      <PageRoutes />
+      <Suspense fallback={<center>Loading...</center>}>
+        <PageRoutes />
+      </Suspense>
     </AuthProvider>
   );
 };
